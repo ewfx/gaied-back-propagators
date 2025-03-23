@@ -3,11 +3,16 @@ from pymongo import MongoClient
 import hashlib
 import json
 import redis
+import os
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 app = Flask(__name__)
 
 # MongoDB Connection
-MONGO_URI = "mongodb+srv://dibya567darsan:bT6MIqzPYDaEAhun@cluster0.91ma3.mongodb.net/"
+MONGO_URI = os.getenv("MONGO_URI")
 
 try:
     client = MongoClient(MONGO_URI)
@@ -19,19 +24,15 @@ except Exception as e:
 
 # Redis Connection
 redis_client = redis.StrictRedis(
-    host="redis-17414.c301.ap-south-1-1.ec2.redns.redis-cloud.com",
-    port=17414,
-    password="HwJ8SSw0yR3qujdMk499ZNsLgEi2KiMW",
+    host=os.getenv("REDIS_HOST"),
+    port=int(os.getenv("REDIS_PORT")),
+    password=os.getenv("REDIS_PASSWORD"),
     decode_responses=True
 )
-
-# SHA-256 Hash Function
 
 
 def compute_email_hash(email_content: str) -> str:
     return hashlib.sha256(email_content.encode()).hexdigest()
-
-# Check for Duplicate Email
 
 
 def check_duplicate_email(email_content: str):
@@ -51,16 +52,12 @@ def check_duplicate_email(email_content: str):
 
     return None  # New email
 
-# Store Email Details
-
 
 def store_email_details(email_content: str, extracted_details: dict):
     email_hash = compute_email_hash(email_content)
     collection.insert_one(
         {"email_hash": email_hash, "extracted_details": extracted_details})
     redis_client.set(email_hash, json.dumps(extracted_details))
-
-# Mock LLM Processing
 
 
 def process_email_with_llm(email_text: str) -> dict:
@@ -69,8 +66,6 @@ def process_email_with_llm(email_text: str) -> dict:
         "sub_request_type": ["Password Reset", "Account Recovery"],
         "key_values": {"username": "user123", "email": "user@example.com"}
     }
-
-# API Route
 
 
 @app.route("/process_email", methods=["POST"])
