@@ -12,8 +12,7 @@ def get_ai_explanation(model_name="gemini-2.0-flash", email="Explain how AI work
         print("Error: GENAI_API_KEY not found in environment variables.")
         return None
     prompt = f"""Analyse the following email (eml format file) and give me the outputs in the following json format
-    
-    -   Summary: A concise summary of the email's content.
+
     -   Request code : Request code the emailc an be classified into.
     -   Sub-request Code: [list of strings]. The possible sub request types the email can be classified into  
     -   Sender Address: The sender's address, if provided.
@@ -28,7 +27,6 @@ def get_ai_explanation(model_name="gemini-2.0-flash", email="Explain how AI work
 
     Output in JSON format:
     {{
-        "summary": "",
         "request_type": "",
         "sub_request_type": "",
         "sender_address": "",
