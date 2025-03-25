@@ -31,7 +31,7 @@ def get_ai_explanation(model_name="gemini-2.0-flash", email="Blank email") -> st
         "sub_request_type": "",
         "sender_address": "",
         "primary_request: "",
-        "key_values": keypoints in json format.
+        "key_values": keypoints in json format,
     }}
     """
     try:

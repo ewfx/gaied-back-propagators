@@ -64,7 +64,7 @@ Data Storage and Caching: Integrating MongoDB and Redis for data storage and cac
 
 ## 👥 Team
 - **Shivaram K K** - [GitHub](https://github.com/Shivaram35144) | [LinkedIn](https://www.linkedin.com/in/shivaram-k-k-406979247/)
-- **Dibyadarsan Das** - [GitHub](#) | [LinkedIn](#)
+- **Dibyadarsan Das** - [GitHub](https://github.com/lightningfast07) | [LinkedIn](https://www.linkedin.com/in/dibyadarsan-das-280aa2220/)
 - **Mohammed Abid Ahmed** - [GitHub](#) | [LinkedIn](#)
 - **Leena Jain** - [GitHub](#) | [LinkedIn](#)
 - **Pareedhi Goyal** - [GitHub](#) | [LinkedIn](#)
