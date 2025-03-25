@@ -175,6 +175,3 @@ cython_debug/
 
 #Backend Environment Variables
 code/src/Backend/.env
-
-#Sample eml file
-code/src/Backend/utilities/email_sample.eml
