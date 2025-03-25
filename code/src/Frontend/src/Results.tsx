@@ -13,12 +13,12 @@ import {
 } from 'lucide-react';
 
 interface Classification {
-  reqType: string;
-  subReqType: string;
-  primaryReqType: string;
-  extractedDetails: Record<string, string>;
-  confidence: number;
-  keyDetails: string[];
+  request_type: string;
+  sub_request_type: string;
+  primary_request: string;
+  sender_address: string;
+  confidence_score: number;
+  key_values: Record<string, any>;
 }
 
 const ResultsPage: React.FC = () => {
@@ -26,15 +26,14 @@ const ResultsPage: React.FC = () => {
   const navigate = useNavigate();
   
   const classification: Classification = location.state?.classification || {
-    reqType: 'Not Classified',
-    subReqType: 'Unknown',
-    primaryReqType: 'Unspecified',
-    extractedDetails: {
-    },
-    confidence: 0.75,
-    keyDetails: []
+    request_type: 'Not Classified',
+    sub_request_type: 'Unknown',
+    primary_request: 'Unspecified',
+    sender_address: 'wells@mail.com', 
+    confidence_score: 1,
+    key_values: { }
   };
-
+  
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
   };
@@ -59,23 +58,25 @@ const ResultsPage: React.FC = () => {
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      height: '100vh',
+      minHeight: '100vh',
       width: '100vw',
       margin: 0,
       padding: 0,
       boxSizing: 'border-box',
       backgroundColor: '#ffffff',
-      overflow: 'hidden'
+      overflowX: 'hidden',
+      overflowY: 'auto'
     },
     mainContainer: {
       width: '100%',
-      height: '100%',
+      minHeight: '100vh',
       maxWidth: '100%',
       display: 'flex',
       flexDirection: 'column',
       backgroundColor: 'white',
       boxShadow: 'none',
-      overflow: 'hidden'
+      overflowX: 'hidden',
+      overflowY: 'auto'
     },
     gradientHeader: {
       background: 'linear-gradient(to right, #6a11cb 0%, #2575fc 100%)',
@@ -92,7 +93,9 @@ const ResultsPage: React.FC = () => {
       gap: '1.5rem',
       padding: '2rem',
       background: 'linear-gradient(to bottom right, #f5f7fa, #e6e9f0)',
-      flexShrink: 0
+      flexShrink: 0,
+      width: '100%',
+      boxSizing: 'border-box'
     },
     detailCard: {
       backgroundColor: 'white',
@@ -109,7 +112,7 @@ const ResultsPage: React.FC = () => {
       backgroundColor: 'white',
       borderTop: '1px solid #e5e7eb',
       overflowX: 'auto',
-      whiteSpace: 'nowrap',
+      overflowY: 'visible',
       WebkitOverflowScrolling: 'touch',
       scrollbarWidth: 'thin',
       scrollbarColor: '#888 #f1f1f1'
@@ -118,12 +121,15 @@ const ResultsPage: React.FC = () => {
       display: 'inline-flex',
       gap: '1rem',
       overflowX: 'auto',
+      overflowY: 'visible',
       width: '100%',
-      padding: '0 0 1rem 0'
+      padding: '0 0 1rem 0',
+      WebkitOverflowScrolling: 'touch'
     },
     extractedDetailsCard: {
       flexShrink: 0,
-      width: '250px',
+      minWidth: '250px',
+      width: 'auto',
       backgroundColor: '#f3f4f6',
       padding: '1rem',
       borderRadius: '0.5rem',
@@ -143,7 +149,9 @@ const ResultsPage: React.FC = () => {
       padding: '1.5rem', 
       backgroundColor: '#f9fafb',
       borderTop: '1px solid #e5e7eb',
-      flexShrink: 0
+      flexShrink: 0,
+      width: '100%',
+      boxSizing: 'border-box'
     },
     footer: {
       backgroundColor: '#f3f4f6', 
@@ -154,44 +162,77 @@ const ResultsPage: React.FC = () => {
       justifyContent: 'center',
       alignItems: 'center',
       gap: '0.5rem',
-      flexShrink: 0
+      flexShrink: 0,
+      width: '100%',
+      boxSizing: 'border-box'
     }
   };
 
   return (
     <div style={styles.pageContainer}>
       <div style={styles.mainContainer}>
-       
         <div style={styles.gradientHeader}>
           <div style={{
             display: 'flex', 
+            flexDirection: 'column', 
             alignItems: 'center', 
             position: 'relative', 
-            zIndex: 2
+            zIndex: 2,
+            width: '100%'
           } as CSSProperties}>
-            <Zap style={{marginRight: '0.75rem'}} color="white" size={32} />
-            <h1 style={{margin: 0, fontSize: '1.5rem', fontWeight: 600} as CSSProperties}>
-              AI Classification Results
-            </h1>
-          </div>
-          <div 
-            style={{
-              background: 'rgba(255,255,255,0.2)', 
-              padding: '0.5rem', 
-              borderRadius: '50%', 
-              cursor: 'pointer',
-              transition: 'transform 0.2s ease'
-            } as CSSProperties} 
-            onClick={() => navigate('/')}
-            title="Back to Upload"
-          >
-            <ArrowLeft color="white" />
+            <div style={{
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'space-between', 
+              width: '100%', 
+              marginBottom: '1rem'
+            } as CSSProperties}>
+              <div style={{
+                display: 'flex', 
+                alignItems: 'center', 
+                gap: '0.75rem'
+              } as CSSProperties}>
+                <Zap color="white" size={32} />
+                <h1 style={{
+                  margin: 0, 
+                  fontSize: '1.5rem', 
+                  fontWeight: 600, 
+                  color: 'white'
+                } as CSSProperties}>
+                  AI Classification Results
+                </h1>
+              </div>
+              <div style={{
+                display: 'flex', 
+                alignItems: 'center', 
+                gap: '0.75rem'
+              } as CSSProperties}>
+                <h2 style={{
+                  margin: 0, 
+                  fontSize: '1rem', 
+                  color: 'white'
+                } as CSSProperties}>
+              Sender of this mail -    {classification.sender_address}
+                </h2>
+                <div 
+                  style={{
+                    background: 'rgba(255,255,255,0.2)', 
+                    padding: '0.5rem', 
+                    borderRadius: '50%', 
+                    cursor: 'pointer',
+                    transition: 'transform 0.2s ease'
+                  } as CSSProperties} 
+                  onClick={() => navigate('/')}
+                  title="Back to Upload"
+                >
+                  <ArrowLeft color="white" />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
-     
         <div style={styles.detailsSection}>
-         
           <div style={{
             ...styles.detailCard,
             borderLeft: `4px solid #4f46e5`,
@@ -205,7 +246,7 @@ const ResultsPage: React.FC = () => {
               <FileText color="#4f46e5" size={24} />
               <button 
                 style={styles.copyButton}
-                onClick={() => copyToClipboard(classification.reqType)}
+                onClick={() => copyToClipboard(classification.request_type)}
                 title="Copy Request Type"
               >
                 <Copy size={20} />
@@ -226,12 +267,11 @@ const ResultsPage: React.FC = () => {
                 color: '#1f2937', 
                 fontSize: '1rem'
               } as CSSProperties}>
-                {classification.reqType}
+                {classification.request_type}
               </p>
             </div>
           </div>
 
-         
           <div style={{
             ...styles.detailCard,
             borderLeft: `4px solid #3b82f6`,
@@ -245,7 +285,7 @@ const ResultsPage: React.FC = () => {
               <TrendingUp color="#3b82f6" size={24} />
               <button 
                 style={styles.copyButton}
-                onClick={() => copyToClipboard(classification.subReqType)}
+                onClick={() => copyToClipboard(classification.sub_request_type)}
                 title="Copy Sub Request Type"
               >
                 <Copy size={20} />
@@ -266,12 +306,11 @@ const ResultsPage: React.FC = () => {
                 color: '#1f2937', 
                 fontSize: '1rem'
               } as CSSProperties}>
-                {classification.subReqType}
+                {classification.sub_request_type}
               </p>
             </div>
           </div>
 
-          
           <div style={{
             ...styles.detailCard,
             borderLeft: `4px solid #10b981`,
@@ -285,7 +324,7 @@ const ResultsPage: React.FC = () => {
               <CheckCircle color="#10b981" size={24} />
               <button 
                 style={styles.copyButton}
-                onClick={() => copyToClipboard(classification.primaryReqType)}
+                onClick={() => copyToClipboard(classification.primary_request)}
                 title="Copy Primary Request Type"
               >
                 <Copy size={20} />
@@ -306,13 +345,12 @@ const ResultsPage: React.FC = () => {
                 color: '#1f2937', 
                 fontSize: '1rem'
               } as CSSProperties}>
-                {classification.primaryReqType}
+                {classification.primary_request}
               </p>
             </div>
           </div>
         </div>
 
-       
         <div style={styles.extractedDetailsSection}>
           <div style={{
             display: 'flex', 
@@ -325,7 +363,7 @@ const ResultsPage: React.FC = () => {
           </div>
           
           <div style={styles.extractedDetailsContainer}>
-            {Object.entries(classification.extractedDetails || {}).map(([key, value]) => (
+            {Object.entries(classification.key_values || {}).map(([key, value]) => (
               <div 
                 key={key}
                 style={styles.extractedDetailsCard}
@@ -363,7 +401,6 @@ const ResultsPage: React.FC = () => {
           </div>
         </div>
 
-       
         <div style={styles.confidenceSection}>
           <div style={{display: 'flex', alignItems: 'center', marginBottom: '1rem'} as CSSProperties}>
             <BarChart2 color="#4f46e5" size={24} style={{marginRight: '0.75rem'}} />
@@ -384,23 +421,22 @@ const ResultsPage: React.FC = () => {
               boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.06)'
             } as CSSProperties}>
               <div style={{
-                width: `${classification.confidence * 100}%`,
+                width: `${classification.confidence_score * 100}%`,
                 height: '100%',
-                background: getConfidenceColor(classification.confidence).gradient,
+                background: getConfidenceColor(classification.confidence_score).gradient,
                 transition: 'width 0.5s ease-in-out',
                 borderRadius: '9999px'
               } as CSSProperties}></div>
             </div>
             <span style={{
               fontWeight: 'bold', 
-              color: getConfidenceColor(classification.confidence).solid
+              color: getConfidenceColor(classification.confidence_score).solid
             } as CSSProperties}>
-              {(classification.confidence * 100).toFixed(2)}%
+              {(classification.confidence_score * 100).toFixed(2)}%
             </span>
           </div>
         </div>
 
-      
         <div style={styles.footer}>
           <Mail size={16} color="#6b7280" />
           <p style={{
