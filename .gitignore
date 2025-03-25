@@ -177,4 +177,4 @@ cython_debug/
 code/src/Backend/.env
 
 #Sample eml file
-code/src/Backend/utilities/*.eml
+code/src/Backend/utilities/email_sample.eml
