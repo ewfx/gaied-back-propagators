@@ -8,12 +8,12 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm install
 
+
 # Copy the rest of the application
 COPY . .
 
-# Expose the frontend port
+# Expose the frontend port - build
+RUN npm run dev 
 EXPOSE 8080
 
-# Build and serve the frontend
-RUN npm run build
 CMD ["npm", "run", "preview"]
