@@ -1,56 +1,10 @@
 # Project Architecture Documentation
 
-## Overview
+## Overviewn of Project
 
 This project consists of a backend service built with Flask and a frontend application built with React and Vite. The backend handles email processing, including duplicate detection and storage, while the frontend provides a user interface for interacting with the backend.
 
-## Directory Structure
 
-```
-/Users/shivaram/Desktop/gaied-back-propagators/
-├── .gitignore
-├── LICENSE
-├── README.md
-├── artifacts/
-│   ├── arch/
-│   │   └── README.md
-│   └── demo/
-│       └── README.md
-├── code/
-│   ├── src/
-│   │   ├── Backend/
-│   │   │   ├── .env
-│   │   │   ├── app.py
-│   │   │   ├── Dockerfile
-│   │   │   └── utilities/
-│   │   │       ├── email_sample.eml
-│   │   │       └── llm.py
-│   │   ├── Frontend/
-│   │   │   ├── .gitignore
-│   │   │   ├── Dockerfile
-│   │   │   ├── eslint.config.js
-│   │   │   ├── index.html
-│   │   │   ├── package.json
-│   │   │   ├── README.md
-│   │   │   ├── tsconfig.app.json
-│   │   │   ├── tsconfig.json
-│   │   │   ├── tsconfig.node.json
-│   │   │   ├── vite.config.ts
-│   │   │   ├── public/
-│   │   │   │   └── vite.svg
-│   │   │   └── src/
-│   │   │       ├── App.css
-│   │   │       ├── App.tsx
-│   │   │       ├── index.css
-│   │   │       ├── main.tsx
-│   │   │       ├── vite-env.d.ts
-│   │   │       └── assets/
-│   │   │           └── react.svg
-│   │   └── README.md
-│   └── test/
-│       └── README.md
-└── venv/
-```
 
 ## Backend
 
@@ -64,18 +18,6 @@ The backend is a Flask application that processes emails, checks for duplicates,
 - **MongoDB**: Used for persistent storage of email details.
 - **Redis**: Used for caching email details to speed up duplicate checks.
 - **Environment Variables**: Stored in `.env` file for sensitive information like API keys and database URIs.
-
-### File Structure
-
-```
-code/src/Backend/
-├── .env
-├── app.py
-├── Dockerfile
-└── utilities/
-    ├── email_sample.eml
-    └── llm.py
-```
 
 ### `app.py`
 
@@ -106,31 +48,6 @@ The frontend is a React application built with Vite, providing a user interface 
 - **Vite**: Used for building and serving the frontend application.
 - **TypeScript**: Used for type checking and development.
 
-### File Structure
-
-```
-code/src/Frontend/
-├── .gitignore
-├── Dockerfile
-├── eslint.config.js
-├── index.html
-├── package.json
-├── README.md
-├── tsconfig.app.json
-├── tsconfig.json
-├── tsconfig.node.json
-├── vite.config.ts
-├── public/
-│   └── vite.svg
-└── src/
-    ├── App.css
-    ├── App.tsx
-    ├── index.css
-    ├── main.tsx
-    ├── vite-env.d.ts
-    └── assets/
-        └── react.svg
-```
 
 ### `App.tsx`
 
