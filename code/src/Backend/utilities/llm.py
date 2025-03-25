@@ -3,7 +3,7 @@ import os
 from dotenv import load_dotenv
 
 
-def get_ai_explanation(model_name="gemini-2.0-flash", email="Explain how AI works"):
+def get_ai_explanation(model_name="gemini-2.0-flash", email="Blank email") -> str:
 
     load_dotenv()
     api_key = os.getenv("GENAI_API_KEY")
