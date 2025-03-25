@@ -2,17 +2,10 @@ import google.generativeai as genai
 import os
 from dotenv import load_dotenv
 
-def read_eml_file(file_path: str) -> str:
-    try:
-        with open(file_path, "r") as file:
-            return file.read()
-    except Exception as e:
-        print(f"An error occurred: {e}")
-        return None
 
 def get_ai_explanation(model_name="gemini-2.0-flash", email="Explain how AI works"):
-    
-    load_dotenv()  
+
+    load_dotenv()
     api_key = os.getenv("GENAI_API_KEY")
 
     if not api_key:
@@ -44,17 +37,10 @@ def get_ai_explanation(model_name="gemini-2.0-flash", email="Explain how AI work
     }}
     """
     try:
-        genai.configure(api_key=api_key) 
+        genai.configure(api_key=api_key)
         model = genai.GenerativeModel(model_name)
         response = model.generate_content(prompt)
         return response.text
     except Exception as e:
         print(f"An error occurred: {e}")
         return None
-
-if __name__ == "__main__":
-    emails= read_eml_file("email_sample.eml")
-    if emails:
-        explanation = get_ai_explanation(email=emails)
-        if explanation:
-            print(explanation)
