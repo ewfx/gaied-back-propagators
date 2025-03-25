@@ -53,7 +53,7 @@ def get_ai_explanation(model_name="gemini-2.0-flash", email="Explain how AI work
         return None
 
 if __name__ == "__main__":
-    emails= read_eml_file("email_sample.eml")
+    emails= read_eml_file("./code/src/Backend/utilities/email_sample.eml")
     if emails:
         explanation = get_ai_explanation(email=emails)
         if explanation:
