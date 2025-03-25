@@ -2,6 +2,14 @@ import google.generativeai as genai
 import os
 from dotenv import load_dotenv
 
+def read_eml_file(file_path: str) -> str:
+    try:
+        with open(file_path, "r") as file:
+            return file.read()
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return None
+
 def get_ai_explanation(model_name="gemini-2.0-flash", email="Explain how AI works"):
     
     load_dotenv()  
@@ -10,7 +18,7 @@ def get_ai_explanation(model_name="gemini-2.0-flash", email="Explain how AI work
     if not api_key:
         print("Error: GENAI_API_KEY not found in environment variables.")
         return None
-    prompt = f"""Analyse the following email and give me the outputs in the following json format
+    prompt = f"""Analyse the following email (eml format file) and give me the outputs in the following json format
     
     -   Summary: A concise summary of the email's content.
     -   Request code : Request code the emailc an be classified into.
@@ -45,21 +53,8 @@ def get_ai_explanation(model_name="gemini-2.0-flash", email="Explain how AI work
         return None
 
 if __name__ == "__main__":
-    emails="""
-    Sender: Shivaram@gmail.com
-    Subject: Quick Question Regarding Inbound Funds
-
-    Hey Finance Team,
-
-    Hope you're all having a good day. Just wanted to quickly get something sorted out. We're looking to move some funds into our account, specifically the principal and the interest accrued. The total should be around $150,000, broken down as $100,000 for the principal and $50,000 for the interest. 
-
-    The account number we're referring to is 1234567890. If you could let me know the best way to get this processed, that would be great.
-
-    Our office address is 456 Oak Ave, Anytown, CA 98765.
-
-    Thanks,
-    Shivaram
-    """
-    explanation = get_ai_explanation(email=emails)
-    if explanation:
-        print(explanation)
+    emails= read_eml_file("email_sample.eml")
+    if emails:
+        explanation = get_ai_explanation(email=emails)
+        if explanation:
+            print(explanation)
