@@ -18,6 +18,7 @@ def get_ai_explanation(model_name="gemini-2.0-flash", email="Blank email") -> st
     -   Sender Address: The sender's address, if provided.
     -   Primary Request: The main request for the email.
     -   Key Values: Any key points mentioned in the email in a json format. Eg: {{"key1": "value1", "key2": "value2"}}
+    -   Confidence Score: A number between 0-100 indicating the confidence level of your response.
     
     The below are the request types and sub request types that the email can be classified into:
     Request types (its sub-request-types) : Adjustment (Nil), AU Transfer (Nil), Closing Notice (Reallocation Fees, Amendment Fees, Reallocation Principal), Commitment Change (Cashless Roll, Decrease, Increase), Fee Payment (Ongoing Fee, Letter of Credit Fee), Money Movement-Inbound (Principal, Interest, Principal + Interest, Principal+Interest+Fee), Money Movement - Outbound (Timebound, Foreign Currency)
@@ -32,6 +33,7 @@ def get_ai_explanation(model_name="gemini-2.0-flash", email="Blank email") -> st
         "sender_address": "",
         "primary_request: "",
         "key_values": keypoints in json format,
+        "confidence_score": 0
     }}
     """
     try:
