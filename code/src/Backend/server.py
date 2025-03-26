@@ -22,22 +22,20 @@ def process_email():
         print('No selected file')
         return jsonify({"error": "No selected file"}), 400
 
-    # Read the .eml file content
+
     email_content = email_file.read().decode("utf-8")
 
-    # Check Duplicate
+
     existing_details = check_duplicate_email(email_content)
     if existing_details:
         print(existing_details)
         return jsonify(existing_details),200
-        # return jsonify({"message": "Duplicate email detected", "extracted_details": existing_details}),200
 
-    # Process Email
+
     extracted_info = json.loads(get_ai_explanation(email=email_content))
     store_email_details(email_content, extracted_info)
     print(extracted_info)
     return jsonify(extracted_info),200
-    # return jsonify({"message": "New email processed", "extracted_details": extracted_info}),200
 
 
 if __name__ == "__main__":

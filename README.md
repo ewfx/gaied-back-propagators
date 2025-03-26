@@ -20,7 +20,9 @@ This project consists of a backend service built with Flask and a frontend appli
 📹 [Video Demo](artifacts/demo/demo.mp4)  
 🖼️ Screenshots:
 
-![Screenshot 1](artifacts/demo/screenshots/ss1.png)
+![Upload Page](artifacts/demo/screenshots/ss1.png)
+![Results Page](artifacts/demo/screenshots/ss2.png)
+
 
 ## 💡 Inspiration
 In today's digital age, email communication is crucial for both personal and professional interactions. However, managing a large volume of emails can be challenging, especially when dealing with duplicate messages and ensuring important information is not lost. This project was inspired by the need to streamline email processing, detect duplicates efficiently, and provide a user-friendly interface for managing emails. By leveraging modern technologies like Flask, React, and Vite, we aim to create a robust solution that simplifies email management and enhances productivity.
@@ -37,6 +39,8 @@ Frontend: The frontend is built with React, a popular JavaScript library for bui
 Containerization: Docker was used to containerize both the backend and frontend applications. Docker Compose was used to orchestrate the multi-container setup, making it easy to manage and deploy the application.
 Environment Management: We used .env files to manage environment variables securely, ensuring sensitive information like API keys and database URIs are not hardcoded in the source code.
 
+![Architecture](artifacts/arch/BackPropagators.png)
+
 ## 🚧 Challenges We Faced
 - Email Processing: Parsing and processing email data efficiently was a significant challenge. We had to ensure that the email content was correctly extracted and processed without losing any important information.
 - Duplicate Detection: Implementing an efficient and accurate duplicate detection mechanism was crucial. We had to design a system that could quickly identify duplicate emails without causing performance bottlenecks.
@@ -50,11 +54,17 @@ Data Storage and Caching: Integrating MongoDB and Redis for data storage and cac
    ```
 2. Create a .env file in Backend Folder with the following values
 
+
 - GENAI_API_KEY = {your_value}
 - MONGO_URI = {your_value}
 - REDIS_HOST = {your_value}
 - REDIS_PORT = {your_value}
 - REDIS_PASSWORD = {your_value}
+
+3. Make sure docker daemon is up and running.
+4. open root directory in terminal and do `docker-compose up --build`
+5. Verify the project
+6. To destroy these containers - `docker-compose down`
 
 ## 🏗️ Tech Stack
 - 🔹 Frontend: React / Typescript
