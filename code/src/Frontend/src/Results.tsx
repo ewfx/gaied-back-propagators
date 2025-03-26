@@ -31,7 +31,7 @@ const ResultsPage: React.FC = () => {
     primary_request: 'Unspecified',
     sender_address: 'wells@mail.com', 
     confidence_score: 1,
-    key_values: { }
+    key_values: {}
   };
   
   const copyToClipboard = (text: string) => {
@@ -432,7 +432,7 @@ const ResultsPage: React.FC = () => {
               fontWeight: 'bold', 
               color: getConfidenceColor(classification.confidence_score).solid
             } as CSSProperties}>
-              {(classification.confidence_score * 100).toFixed(2)}%
+              {(classification.confidence_score ).toFixed(2)}%
             </span>
           </div>
         </div>

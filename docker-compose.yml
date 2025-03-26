@@ -14,7 +14,7 @@ services:
   frontend:
     build: ./code/src/Frontend
     ports:
-      - "8080:8080"
+      - "5173:5173"
     volumes:
       - ./code/src/Frontend:/app
     depends_on:

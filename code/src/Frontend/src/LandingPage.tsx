@@ -143,16 +143,22 @@ const LandingPage: React.FC = () => {
     try {
       const formData = new FormData();
       if (selectedFile) {
-        formData.append('file', selectedFile);
+        formData.append('email_file', selectedFile);
       }
 
-      const response = await axios.post('http://localhost:8080/classify', formData, {
+      const response = await axios.post('http://127.0.0.1:5000/process_email', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       });
 
+
       if (response.status === 200) {
+
+        console.log(response.data);
+        console.log("Hi")
+        console.log(response.data.request_type);
+        
         navigate('/results', { 
           state: { 
             classification: {

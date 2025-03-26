@@ -1,6 +1,7 @@
 import google.generativeai as genai
 import os
 from dotenv import load_dotenv
+import json
 
 
 def get_ai_explanation(model_name="gemini-2.0-flash", email="Blank email") -> str:
@@ -26,21 +27,55 @@ def get_ai_explanation(model_name="gemini-2.0-flash", email="Blank email") -> st
     Email Description:
     {email}
 
-    Output in JSON format:
+    Response Must be in a json format.
     {{
         "request_type": "",
         "sub_request_type": "",
         "sender_address": "",
-        "primary_request: "",
+        "primary_request": "",
         "key_values": keypoints in json format,
         "confidence_score": 0
     }}
+    
     """
     try:
         genai.configure(api_key=api_key)
         model = genai.GenerativeModel(model_name)
         response = model.generate_content(prompt)
-        return response.text
+        return llmformat(format_llm_resp(response.text))
     except Exception as e:
         print(f"An error occurred: {e}")
         return None
+
+def format_llm_resp(st):
+    lines = st.strip().split("\n")
+    if len(lines) > 2:
+        return "\n".join(lines[1:-1]).strip()
+    return ""  
+
+def llmformat(st):
+    load_dotenv()
+    api_key = os.getenv("GENAI_API_KEY")
+    prompt = f"""
+        This is my broken json format. format it correctly and give me the json only. No additional text/ explaination needed.
+        {st}
+    """
+    try:
+        genai.configure(api_key=api_key)
+        model = genai.GenerativeModel("gemini-2.0-flash")
+        response = model.generate_content(prompt)
+        return format_llm_resp(response.text)
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return None
+
+if __name__ == "__main__":
+    with open("email_sample.eml", "r") as f:
+        email = f.read()
+    interm= get_ai_explanation(email=email)
+    print(interm)
+    print("------------------------------------------------")
+    print(json.loads(interm))
+    print("------------------------------------------------")
+    print(type(json.loads(llmformat(interm))))

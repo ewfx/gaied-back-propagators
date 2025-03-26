@@ -13,7 +13,7 @@ RUN npm install
 COPY . .
 
 # Expose the frontend port - build
-RUN npm run dev 
-EXPOSE 8080
+RUN npm run dev
+EXPOSE 5173
 
 CMD ["npm", "run", "preview"]

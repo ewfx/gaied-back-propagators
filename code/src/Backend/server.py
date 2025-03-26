@@ -2,18 +2,24 @@ from flask import Flask, request, jsonify
 from utilities.emails import read_eml_file
 from utilities.emails import check_duplicate_email, store_email_details
 from utilities.llm import get_ai_explanation
+from flask_cors import CORS
+import json
 
 app = Flask(__name__)
+CORS(app)
+
 
 
 @app.route("/process_email", methods=["POST"])
 def process_email():
     if "email_file" not in request.files:
+        print('No file part')
         return jsonify({"error": "No file part"}), 400
 
     email_file = request.files["email_file"]
 
     if email_file.filename == "":
+        print('No selected file')
         return jsonify({"error": "No selected file"}), 400
 
     # Read the .eml file content
@@ -22,13 +28,16 @@ def process_email():
     # Check Duplicate
     existing_details = check_duplicate_email(email_content)
     if existing_details:
-        return jsonify({"message": "Duplicate email detected", "extracted_details": existing_details})
+        print(existing_details)
+        return jsonify(existing_details),200
+        # return jsonify({"message": "Duplicate email detected", "extracted_details": existing_details}),200
 
     # Process Email
-    extracted_info = get_ai_explanation(email=email_content)
+    extracted_info = json.loads(get_ai_explanation(email=email_content))
     store_email_details(email_content, extracted_info)
-
-    return jsonify({"message": "New email processed", "extracted_details": extracted_info})
+    print(extracted_info)
+    return jsonify(extracted_info),200
+    # return jsonify({"message": "New email processed", "extracted_details": extracted_info}),200
 
 
 if __name__ == "__main__":
